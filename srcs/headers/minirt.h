@@ -6,7 +6,7 @@
 /*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:33:27 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 17:20:10 by egualand         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:28:36 by egualand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,5 +145,9 @@ t_float3		parse_coord(char *str);
 t_color			parse_color(char *str);
 char			*skip_commas(char *str);
 bool			is_scene_valid(const t_scene *scene);
+
+double			intersect_cylinder_side(const t_ray ray, const t_cylinder *cylinder, const double dot_ray_cylinder);
+double			intersect_cylinder_caps(const t_ray ray, const t_cylinder *cylinder, const double dot_ray_cylinder);
+double			intersect_cylinder_cap(const t_ray ray, const t_cylinder *cylinder, const t_vector extreme_center, const double dot_ray_cylinder);
 
 #endif
