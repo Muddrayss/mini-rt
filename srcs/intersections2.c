@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   intersections2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:16:18 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 18:24:23 by egualand         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:31:56 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/minirt.h"
 
-static double	intersect_cylinder_side(const t_ray ray, const t_cylinder *cylinder, const double dot_ray_cylinder)
+double	intersect_cylinder_side(const t_ray ray, const t_cylinder *cylinder, const double dot_ray_cylinder)
 {
 	const t_vector	oc = vec_sub(ray.origin, cylinder->center);
 	const double	dot_oc_cylinder = vec_dot(oc, cylinder->direction);
@@ -56,9 +56,9 @@ double	intersect_ray_triangle(const t_ray ray, const t_shape *shape)
 		vec_sub(shape->triangle.vertices[2], shape->triangle.vertices[0])
 	};
 	const t_vector	h = vec_cross(ray.direction, e[1]);
-	const double	u;
-	const t_vector	q;
-	const double	v;
+	double			u;
+	t_vector		q;
+	double			v;
 
 	if (vec_dot(e[0], h) > -EPSILON && vec_dot(e[0], h) < EPSILON)
 		return (-1);
@@ -89,17 +89,18 @@ double	intersect_ray_cone(const t_ray r, const t_shape *shape)
 		* vec_dot(vec_sub(r.origin, c), cone.direction) - vec_dot(
 			vec_sub(r.origin, c), vec_sub(r.origin, c)) * cone.costheta_squared
 	};
-	const double		t0;
-	const double		t1;
+	double				ts[2];
+	double				discriminant;
 
+	discriminant = abc[1] * abc[1] - 4 * abc[0] * abc[2];
 	if (discriminant < 0)
 		return (-1.0);
-	t0 = (-B - sqrt(abc[1] * abc[1] - 4 * abc[0] * abc[2])) / (2 * abc[0]);
-	t1 = (-B + sqrt(abc[1] * abc[1] - 4 * abc[0] * abc[2])) / (2 * abc[0]);
-	if (t0 > 0 && t1 > 0)
-		return (fmin(t0, t1));
-	else if (t0 > 0 || t1 > 0)
-		return (t0 * (t0 > 0) + t1 * (t1 > 0));
+	ts[0] = (-abc[1] - sqrt(discriminant)) / (2 * abc[0]);
+	ts[1] = (-abc[1] + sqrt(discriminant)) / (2 * abc[0]);
+	if (ts[0] > 0 && ts[1] > 0)
+		return (fmin(ts[0], ts[1]));
+	else if (ts[0] > 0 || ts[1] > 0)
+		return (ts[0] * (ts[0] > 0) + ts[1] * (ts[1] > 0));
 	else
 		return (-1.0);
 }
@@ -124,21 +125,23 @@ inline bool	ray_intersects_aabb(t_ray r, t_point b_max, t_point b_min)
 	const double	bb_max[3] = {b_max.x, b_max.y, b_max.z};
 	const double	bb_min[3] = {b_min.x, b_min.y, b_min.z};
 	const double	r_origin[3] = {r.origin.x, r.origin.y, r.origin.z};
-	double			ts[3];
+	double			ts[2];
+	uint8_t			i;
 
-	while (t[2] < 3.0f)
+	i = 0;
+	while (i < 3)
 	{
-		t[0] = (bb_min[i] - r_origin[i]) * 1.0f / r_direction[i];
-		t[1] = (bb_max[i] - r_origin[i]) * 1.0f / r_direction[i];
+		ts[0] = (bb_min[i] - r_origin[i]) * 1.0f / r_direction[i];
+		ts[1] = (bb_max[i] - r_origin[i]) * 1.0f / r_direction[i];
 		if (1.0f / r_direction[i] < 0.0f)
 		{
-			t0 = t0 ^ t1;
-			t1 = t1 ^ t0;
-			t0 = t0 ^ t1;
+			ts[0] = ts[0] ^ ts[1];
+			ts[1] = ts[1] ^ ts[0];
+			ts[0] = ts[0] ^ ts[1];
 		}
-		if (get_tmin_tmax(t1, FLT_MAX) <= get_tmin_tmax(t0, -FLT_MAX))
+		if (get_tmin_tmax(ts[1], FLT_MAX) <= get_tmin_tmax(ts[0], -FLT_MAX))
 			return (false);
-		t[2] += 1.0f;
+		i++;
 	}
 	return (true);
 }
