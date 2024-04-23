@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 14:18:00 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 16:42:37 by egualand         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:01:18 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ static inline void	check_shapes_in_node(const t_octree *node, const t_ray ray, t
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
-		t = intersect[shape->type](ray, shape);
+		t = intersect[shape->e_type](ray, shape);
 		if (t > 0 && t < closest_hit->distance)
 			update_closest_hit(closest_hit, shape, t, ray);
 		shapes = shapes->next;
@@ -205,7 +205,7 @@ static void	update_closest_hit(t_hit *closest_hit, t_shape *shape, const double 
 	closest_hit->distance = t;
 	closest_hit->point = ray_point_at_parameter(ray, t);
 	closest_hit->shape = shape;
-	switch (shape->type)
+	switch (shape->e_type)
 	{
 		case TRIANGLE:
 			closest_hit->normal = shape->triangle.normal;

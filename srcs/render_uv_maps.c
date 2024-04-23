@@ -6,7 +6,7 @@
 /*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:38:44 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/20 19:27:09 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:01:25 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	get_uv(const t_hit *hit_info, double *u, double *v)
 	i = 0;
 	while (i < n_shapes)
 	{
-		if (hit_info->shape->type == i)
+		if (hit_info->shape->e_type == i)
 		{
 			get_uv_funcs[i](hit_info, u, v);
 			break ;

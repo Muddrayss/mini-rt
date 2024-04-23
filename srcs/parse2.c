@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 21:33:22 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 16:31:08 by egualand         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:40:03 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,5 @@ void	parse_sphere(t_shape *shape)
 	shape->sphere.radius = ft_atof(ft_strtok(NULL, spaces)) / 2.0f;
 	if (shape->sphere.radius <= 0)
 		ft_quit(5, "invalid sphere radius");
-	shape->type = SPHERE;
+	shape->e_type = SPHERE;
 }

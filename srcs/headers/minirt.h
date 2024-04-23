@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:33:27 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 17:20:10 by egualand         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:02:25 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "../headers/get_next_line.h"
 # include "../headers/primitives.h"
 # include "utils.h"
-// # include "scene.h"
+# include "scene.h"
 
 //valori ideali
 # define WIN_SIZE 1
@@ -145,5 +145,21 @@ t_float3		parse_coord(char *str);
 t_color			parse_color(char *str);
 char			*skip_commas(char *str);
 bool			is_scene_valid(const t_scene *scene);
+void			set_shapes_data(t_scene *scene);
+void			set_world_extremes(t_scene *scene);
+void			fill_octree(t_octree *node, t_list *shapes,
+					uint8_t depth, t_vector bt_bb[2]);
+void			set_bounding_box(t_shape *shape);
+void			set_bb_sphere(t_shape *shape);
+void			set_bb_cylinder(t_shape *shape);
+void			set_bb_triangle(t_shape *shape);
+void			set_bb_cone(t_shape *shape);
+void			set_bb_plane(t_shape *shape);
+void			update_box_limits(t_point *new_box_top,
+					t_point *new_box_bottom, t_vector size, uint8_t i);
+t_list			*get_shapes_inside_box(t_list *shapes,
+					t_point box_top, t_point box_bottom);
+int				boxes_overlap(const t_point box1_top, const t_point box1_bottom,
+					const t_point box2_top, const t_point box2_bottom);
 
 #endif

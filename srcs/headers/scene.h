@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 21:45:05 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 17:20:22 by egualand         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:38:52 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
-// # include "shapes.h"
-// # include "../../libft/libft.h"
+# include "shapes.h"
+# include "../../libft/libft.h"
 
 typedef struct s_camera
 {

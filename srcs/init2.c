@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 21:27:35 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 16:18:57 by egualand         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:39:25 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ static void	init_window2(t_mlx_data *win_data)
 
 void	init_window(t_mlx_data *win_data, t_scene *scene)
 {
-	uint16_t	i;
-
 	win_data->mlx = mlx_init();
 	mlx_get_screen_size(win_data->mlx,
 		&win_data->win_width, &win_data->win_height);
