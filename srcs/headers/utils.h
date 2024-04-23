@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
+/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:41:24 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/21 14:52:51 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:00:24 by egualand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
-#define UTILS_H
+# define UTILS_H
 
-#include <stdint.h>
-#include <stdbool.h>
+# include <stdint.h>
+# include <stdbool.h>
 
-bool 		is_comment(const char *line);
-bool 		ft_isspace(const char c);
-bool 		is_empty_line(const char *line);
-double		ft_atof(const char *str);
-uint8_t 	ft_atoui(const char *str);
-char		*ft_strtok(char *const str, const char *const sep);
-char		*get_next_line(int fd);
-double		fclamp(const double value, const double min, const double max);
-int32_t		clamp(const int32_t value, const int32_t min, const int32_t max);
-void 		ft_freematrix(void **matrix);
-void		*calloc_p(const  size_t n_memb, const  size_t size);
-void		*malloc_p(const size_t size);
+bool	is_comment(const char *line);
+bool	ft_isspace(const char c);
+bool	is_empty_line(const char *line);
+double	ft_atof(const char *str);
+uint8_t	ft_atoui(const char *str);
+char	*ft_strtok(char *const str, const char *const sep);
+char	*get_next_line(int fd);
+double	fclamp(const double value, const double min, const double max);
+int32_t	clamp(const int32_t value, const int32_t min, const int32_t max);
+void	ft_freematrix(void **matrix);
+void	*calloc_p(const size_t n_memb, const size_t size);
+void	*malloc_p(const size_t size);
 
 #endif

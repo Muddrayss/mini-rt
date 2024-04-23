@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
+/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:33:27 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/21 17:55:25 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:20:10 by egualand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "../headers/get_next_line.h"
 # include "../headers/primitives.h"
 # include "utils.h"
-# include "scene.h"
+// # include "scene.h"
 
 //valori ideali
 # define WIN_SIZE 1
@@ -46,6 +46,10 @@
 # define CHECKERBOARD_TILE_DENSITY 15
 # define CHECKERBOARD_COLOR1 0x000000
 # define CHECKERBOARD_COLOR2 0xFFFFFF
+
+# ifndef  M_PI
+#  define  M_PI  3.1415926535897932384626433
+# endif
 
 # define TEXTURE_ROOT "textures/"
 
@@ -85,6 +89,12 @@ typedef struct s_thread_data
 	uint16_t	end_y;
 }	t_thread_data;
 
+typedef struct scene_and_mlx
+{
+	t_scene		*scene;
+	t_mlx_data	*mlx_data;
+}	t_scene_and_mlx;
+
 //TODO aggiustare i const
 void			check_args(const uint16_t argc, char **argv);
 void			init_scene(t_scene *scene);
@@ -106,7 +116,9 @@ t_point			ray_point_at_parameter(const t_ray ray, double t);
 void			get_uv(const t_hit *hit_info, double *u, double *v);
 double			*precompute_ratios(uint16_t n_elems);
 void			precompute_viewports(t_mlx_data *win_data);
-t_thread_data	**set_threads_data(t_scene *scene, t_mlx_data *win_data, double *light_ratios, uint16_t lines_per_thread, pthread_attr_t *thread_attr);
+t_thread_data	**set_threads_data(t_scene_and_mlx s_and_m,
+					double *light_ratios, uint16_t lines_per_thread,
+					pthread_attr_t *thread_attr);
 void			set_thread_attr(pthread_attr_t *thread_attr);
 t_color			blend_colors(const t_color color1, const t_color color2, double ratio);
 void			setup_camera(t_camera *cam, const t_mlx_data *win_data);
@@ -116,5 +128,22 @@ int 			close_win(t_hook_data *hook_data);
 void			my_mlx_pixel_put(const t_mlx_data *data, const uint16_t x, const uint16_t y, const t_color color);
 t_color 		my_mlx_pixel_get(const t_texture_data *data, const uint32_t x, const uint32_t y);
 t_scene			*get_scene(t_scene *_scene);
+
+void			parse_line(char *line, t_scene *scene);
+void			parse_amblight(t_scene *scene);
+void			parse_light(t_scene *scene);
+void			parse_camera(t_scene *scene);
+void			parse_shape(char *line, t_scene *scene);
+void			parse_material(t_material *material);
+void			parse_texture(const char *str, t_material *material);
+void			parse_sphere(t_shape *shape);
+void			parse_plane(t_shape *shape);
+void			parse_cylinder(t_shape *shape);
+void			parse_triangle(t_shape *shape);
+void			parse_cone(t_shape *shape);
+t_float3		parse_coord(char *str);
+t_color			parse_color(char *str);
+char			*skip_commas(char *str);
+bool			is_scene_valid(const t_scene *scene);
 
 #endif

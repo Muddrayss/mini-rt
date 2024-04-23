@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
+/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 21:27:35 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/21 16:47:25 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:17:39 by egualand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/minirt.h"
 
-static int key_hook(int keycode, t_hook_data *hook_data);
+static int	key_hook(int keycode, t_hook_data *hook_data);
 
 void	check_args(const uint16_t argc, char **argv)
 {
@@ -40,70 +40,39 @@ void	init_scene(t_scene *scene)
 	scene->world_max.y = 0;
 }
 
-void	init_window(t_mlx_data *win_data, t_scene *scene)
-{
-	uint16_t	i;
-
-	win_data->mlx = mlx_init();
-	mlx_get_screen_size(win_data->mlx, &win_data->win_width, &win_data->win_height);
-	win_data->win_width *= WIN_SIZE;
-	win_data->win_height *= WIN_SIZE;
-	win_data->win = mlx_new_window(win_data->mlx,
-			win_data->win_width, win_data->win_height, "miniRT");
-	if (!win_data->win)
-		ft_quit(3, "window initialization failed");
-	win_data->n_images = ft_lstsize(scene->cameras);
-	win_data->images = (void **)calloc_p(win_data->n_images, sizeof(void *));
-	win_data->addrresses = (char **)calloc_p(win_data->n_images, sizeof(char *));
-	i = 0;
-	while (i < win_data->n_images)
-	{
-		win_data->images[i] = mlx_new_image(win_data->mlx, win_data->win_width, win_data->win_height);
-		if (!win_data->images[i])
-			ft_quit(3, "image initialization failed");
-		win_data->addrresses[i] = mlx_get_data_addr(win_data->images[i],
-				&win_data->bits_per_pixel, &win_data->line_length, &win_data->endian);
-		i++;
-	}
-	win_data->current_img = 0;
-	win_data->bytes_per_pixel = win_data->bits_per_pixel / 8;
-	win_data->aspect_ratio = (double)win_data->win_width / (double)win_data->win_height;
-	win_data->viewport_x = (double *)calloc_p(win_data->win_width, sizeof(double));
-	win_data->viewport_y = (double *)calloc_p(win_data->win_height, sizeof(double));
-	precompute_viewports(win_data);
-}
-
-void	init_textures(const t_scene *scene, t_mlx_data *mlx_data)
+void	init_textures(const t_scene *scene, t_mlx_data *md)
 {
 	t_list			*shapes;
 	t_shape			*shape;
-	t_material		*material;
-	void			*texture_img;
+	t_material		*m;
+	void			*ti;
 	int32_t			bits_per_pixel;
 
 	shapes = scene->shapes;
 	while (shapes)
 	{
 		shape = shapes->content;
-		material = shape->material;
-		if (material->texture)
+		m = shape->material;
+		if (m->texture)
 		{
-			texture_img = mlx_xpm_file_to_image(mlx_data->mlx, material->texture->path, &material->texture->width, &material->texture->height);
-			if (!texture_img)
+			ti = mlx_xpm_file_to_image(md->mlx, m->texture->path,
+					&m->texture->width, &m->texture->height);
+			if (!ti)
 				ft_quit(41, "mlx: failed to load texture");
-			material->texture->addr = mlx_get_data_addr(texture_img, &bits_per_pixel, &material->texture->line_length, &material->texture->endian);
-			if (!material->texture->addr)
+			m->texture->addr = mlx_get_data_addr(ti, &bits_per_pixel,
+					&m->texture->line_length, &m->texture->endian);
+			if (!m->texture->addr)
 				ft_quit(42, "mlx: failed to get texture address");
-			material->texture->bytes_per_pixel = bits_per_pixel / 8;
+			m->texture->bytes_per_pixel = bits_per_pixel / 8;
 		}
 		shapes = shapes->next;
 	}
 }
 
-void init_hooks(t_mlx_data *win_data, t_scene *scene)
+void	init_hooks(t_mlx_data *win_data, t_scene *scene)
 {
-	t_hook_data *hook_data;
-	
+	t_hook_data	*hook_data;
+
 	hook_data = calloc_p(1, sizeof(t_hook_data));
 	if (!hook_data)
 		ft_quit(3, "hook data initialization failed");
@@ -113,9 +82,9 @@ void init_hooks(t_mlx_data *win_data, t_scene *scene)
 	mlx_hook(win_data->win, 17, 1L << 17, close_win, hook_data);
 }
 
-static int key_hook(const int keycode, t_hook_data *hook_data)
+static int	key_hook(const int keycode, t_hook_data *hook_data)
 {
-	t_mlx_data *win_data;
+	t_mlx_data	*win_data;
 
 	win_data = hook_data->win_data;
 	if (keycode == KEY_ESC)
@@ -126,7 +95,8 @@ static int key_hook(const int keycode, t_hook_data *hook_data)
 		if (win_data->current_img < 0)
 			win_data->current_img = win_data->n_images - 1;
 		mlx_clear_window(hook_data->win_data->mlx, hook_data->win_data->win);
-		mlx_put_image_to_window(win_data->mlx, win_data->win, win_data->images[win_data->current_img], 0, 0);
+		mlx_put_image_to_window(win_data->mlx, win_data->win,
+			win_data->images[win_data->current_img], 0, 0);
 	}
 	return (0);
 }

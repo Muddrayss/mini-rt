@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+         #
+#    By: egualand <egualand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 14:52:58 by egualand          #+#    #+#              #
-#    Updated: 2024/04/21 15:24:59 by craimond         ###   ########.fr        #
+#    Updated: 2024/04/23 16:50:00 by egualand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBFT_DIR = libft
 LIBFT_REPO = https://github.com/Raimo33/Libft.git
 
 UTILS = $(addprefix utils/, mlx_utils.c protected_methods.c singleton.c conditionals.c ft_strtok.c ft_atof.c ft_atoui.c ft_freematrix.c get_next_line.c math_utils.c)
-SRCS = $(addprefix srcs/, minirt.c init.c exit.c parse.c setup_scene.c render.c render_light.c render_uv_maps.c render_utils.c intersections.c vector_operations.c $(UTILS))
+SRCS = $(addprefix srcs/, minirt.c init.c init2.c exit.c parse.c parse2.c parse3.c parse4.c setup_scene.c render.c render_light.c render_uv_maps.c render_utils.c render_utils2.c intersections.c vector_operations.c vector_operations2.c vector_operations3.c $(UTILS))
 
 OBJS = $(SRCS:.c=.o)
 

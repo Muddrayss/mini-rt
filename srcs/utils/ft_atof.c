@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
+/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:09:28 by egualand          #+#    #+#             */
-/*   Updated: 2024/04/17 15:33:39 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:05:40 by egualand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,12 @@ double	ft_atof(const char *str)
 
 	if (!str)
 		return (0);
-	i = 0;
+	i = -1;
 	result = 0;
 	sign = 1;
 	dec = 0;
-	if (str[i] == '-')
-	{
-		sign = -1;
-		i++;
-	}
+	if (str[++i] == '-')
+		sign = -1 * ++i;
 	while (ft_isdigit(str[i]))
 		result = result * 10 + (str[i++] - '0');
 	if (str[i] == '.')
@@ -41,6 +38,5 @@ double	ft_atof(const char *str)
 		dec = dec * 10 + (str[i++] - '0');
 		divisor *= 10;
 	}
-	result += dec / divisor;
-	return (result * sign);
+	return ((result + dec / divisor) * sign);
 }

@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoui.c                                         :+:      :+:    :+:   */
+/*   parse3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 17:21:29 by egualand          #+#    #+#             */
-/*   Updated: 2024/04/23 16:05:53 by egualand         ###   ########.fr       */
+/*   Created: 2024/03/23 21:33:22 by craimond          #+#    #+#             */
+/*   Updated: 2024/04/23 16:31:25 by egualand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minirt.h"
+#include "headers/minirt.h"
 
-uint8_t	ft_atoui(const char *str)
+t_color	parse_color(char *str)
 {
-	uint8_t		result;
-	uint16_t	i;
+	t_color	color;
 
-	i = 0;
-	result = 0;
 	if (!str)
-		return (0);
-	while (ft_isdigit(str[i]))
-		result = result * 10 + (str[i++] - '0');
-	return (result);
+		ft_quit(5, "invalid color syntax");
+	color.r = ft_atoui(str);
+	str = skip_commas(str);
+	color.g = ft_atoui(str);
+	str = skip_commas(str);
+	color.b = ft_atoui(str);
+	return (color);
+}
+
+char	*skip_commas(char *str)
+{
+	while (*str && *str != ',')
+		str++;
+	if (*str == '\0')
+		ft_quit(5, "invalid syntax: missing comma");
+	return (str + 1);
 }
