@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef primitives_H
-# define primitives_H
+#ifndef PRIMITIVES_H
+# define PRIMITIVES_H
 
 # include <stdint.h>
 
@@ -24,30 +24,30 @@ typedef struct s_float3
 	double		x;
 	double		y;
 	double		z;
-}	t_float3;
+}					t_float3;
 
 typedef struct s_int3
 {
 	uint16_t	x;
 	uint16_t	y;
 	uint16_t	z;
-}	t_uint3;
+}					t_uint3;
 
 typedef struct s_color
 {
 	uint8_t		r;
 	uint8_t		g;
 	uint8_t		b;
-}	t_color;
+}					t_color;
 
-typedef t_float3 t_point;
-typedef t_float3 t_vector;
+typedef t_float3	t_vector;
+typedef t_float3	t_point;
 
 typedef struct s_ray
 {
 	t_point		origin;
 	t_vector	direction;
-}	t_ray;
+}					t_ray;
 
 t_vector	vec_add(const t_vector a, const t_vector b);
 t_vector	vec_add(const t_vector a, const t_vector b);
@@ -60,6 +60,5 @@ double		vec_dot(const t_vector a, const t_vector b);
 double		vec_length(const t_vector a);
 t_vector	project_vector_onto_axis(t_vector vector, t_vector axis);
 bool		are_vectors_parallel(t_vector v1, t_vector v2);
-
 
 #endif

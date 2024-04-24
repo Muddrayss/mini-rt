@@ -6,7 +6,7 @@
 /*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 21:30:12 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/21 15:07:41 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/24 20:51:29 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	octree_clear(t_octree *node, const uint16_t depth);
 static void	free_shape(void *shape);
 
-void ft_quit(const uint8_t id, char *msg)
+void	ft_quit(const uint8_t id, char *msg)
 {
 	if (!msg)
 		perror("miniRT");
@@ -29,7 +29,7 @@ void ft_quit(const uint8_t id, char *msg)
 	exit(id);
 }
 
-int close_win(t_hook_data *hook_data)
+int	close_win(t_hook_data *hook_data)
 {
 	uint16_t	i;
 	t_mlx_data	*win_data;
@@ -52,13 +52,16 @@ int close_win(t_hook_data *hook_data)
 }
 
 static void	octree_clear(t_octree *node, const uint16_t depth)
-{	
+{
+	uint8_t	i;
+
 	if (!node)
 		return ;
 	if (node->children)
 	{
-		for (uint8_t i = 0; i < 8; i++)
-			octree_clear(node->children[i], depth + 1);
+		i = 0;
+		while (i < 8)
+			octree_clear(node->children[i++], depth + 1);
 		free(node->children);
 	}
 	if (depth != 0)
@@ -66,14 +69,14 @@ static void	octree_clear(t_octree *node, const uint16_t depth)
 	free(node);
 }
 
-void destroy_scene(t_scene *scene)
+void	destroy_scene(t_scene *scene)
 {
 	if (!scene)
 		return ;
 	if (scene->octree && scene->octree->children)
 		octree_clear(scene->octree, 0);
-	else //when parsing fails
-		free(scene->octree);	
+	else
+		free(scene->octree);
 	ft_lstclear(&scene->shapes, &free_shape);
 	ft_lstclear(&scene->lights, &free);
 	ft_lstclear(&scene->cameras, &free);
@@ -82,13 +85,13 @@ void destroy_scene(t_scene *scene)
 
 static void	free_shape(void *shape)
 {
-	t_shape *s;
-	
+	t_shape	*s;
+
 	s = (t_shape *)shape;
 	if (s->material->texture)
 	{
 		free(s->material->texture->path);
-		s->material->texture->path = NULL;	
+		s->material->texture->path = NULL;
 		free(s->material->texture);
 		s->material->texture = NULL;
 	}
