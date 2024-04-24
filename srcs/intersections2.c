@@ -6,7 +6,7 @@
 /*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:16:18 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/24 14:40:25 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:45:53 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,7 @@ inline bool	ray_intersects_aabb(t_ray r, t_point b_max, t_point b_min)
 		{
 			double tmp = ts[0];
 			ts[0] = ts[1];
-			ts[1] = ts[0];
-			ts[0] = tmp;
+			ts[1] = tmp;
 		}
 		if (get_tmin_tmax(ts[1], FLT_MAX) <= get_tmin_tmax(ts[0], -FLT_MAX))
 			return (false);
