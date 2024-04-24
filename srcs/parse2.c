@@ -6,7 +6,7 @@
 /*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 21:33:22 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 18:40:03 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:32:03 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,4 @@ void	parse_camera(t_scene *scene)
 	camera_ptr = (t_camera *)malloc_p(sizeof(t_camera));
 	*camera_ptr = camera;
 	ft_lstadd_front(&scene->cameras, ft_lstnew(camera_ptr));
-}
-
-void	parse_sphere(t_shape *shape)
-{
-	shape->sphere.center = parse_coord(ft_strtok(NULL, spaces));
-	shape->sphere.radius = ft_atof(ft_strtok(NULL, spaces)) / 2.0f;
-	if (shape->sphere.radius <= 0)
-		ft_quit(5, "invalid sphere radius");
-	shape->e_type = SPHERE;
 }

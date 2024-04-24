@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egualand <egualand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 21:33:22 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 16:31:25 by egualand         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:33:03 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ t_color	parse_color(char *str)
 	str = skip_commas(str);
 	color.b = ft_atoui(str);
 	return (color);
+}
+
+t_float3	parse_coord(char *str)
+{
+	t_float3	coord;
+
+	if (!str)
+		ft_quit(5, "invalid coordinate syntax");
+	coord.x = ft_atof(str);
+	str = skip_commas(str);
+	coord.y = ft_atof(str);
+	str = skip_commas(str);
+	coord.z = ft_atof(str);
+	return (coord);
 }
 
 char	*skip_commas(char *str)

@@ -6,7 +6,7 @@
 /*   By: craimond <bomboclat@bidol.juis>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:33:27 by craimond          #+#    #+#             */
-/*   Updated: 2024/04/23 19:23:41 by craimond         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:40:32 by craimond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include "scene.h"
 
 //valori ideali
-# define WIN_SIZE 1
+# define WIN_SIZE 0.75
 # define WORLD_SIZE 1000
 # define OCTREE_DEPTH 2
 # define N_THREADS 8
@@ -128,7 +128,6 @@ int 			close_win(t_hook_data *hook_data);
 void			my_mlx_pixel_put(const t_mlx_data *data, const uint16_t x, const uint16_t y, const t_color color);
 t_color 		my_mlx_pixel_get(const t_texture_data *data, const uint32_t x, const uint32_t y);
 t_scene			*get_scene(t_scene *_scene);
-
 void			parse_line(char *line, t_scene *scene);
 void			parse_amblight(t_scene *scene);
 void			parse_light(t_scene *scene);
@@ -149,11 +148,18 @@ void			set_shapes_data(t_scene *scene);
 void			set_world_extremes(t_scene *scene);
 void			fill_octree(t_octree *node, t_list *shapes,
 					uint8_t depth, t_vector bt_bb[2]);
+void	update_box_limits(t_point *new_box_top,
+					t_point *new_box_bottom, t_vector size, uint8_t i);
+t_list	*get_shapes_inside_box(t_list *shapes,
+					t_point box_top, t_point box_bottom);
+int	boxes_overlap(const t_point box1_top, const t_point box1_bottom,
+					const t_point box2_top, const t_point box2_bottom);
 void			set_bb_cylinder(t_shape *shape);
 void			set_bb_sphere(t_shape *shape);
 void			set_bb_plane(t_shape *shape);
 void			set_bb_cone(t_shape *shape);
 void			set_bb_triangle(t_shape *shape);
-double	intersect_cylinder_side(const t_ray ray, const t_cylinder *cylinder, const double dot_ray_cylinder);
+double			intersect_cylinder_side(const t_ray ray, const t_cylinder *cylinder, const double dot_ray_cylinder);
+void			set_bounding_box(t_shape *shape);
 
 #endif
